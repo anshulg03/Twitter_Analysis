@@ -22,3 +22,4 @@ trump_tweets <- userTimeline("realDonaldTrump", n = 200)
 Trump_df <- twListToDF(trump_tweets1)
 
 
+# WIP
