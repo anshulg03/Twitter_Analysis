@@ -7,10 +7,11 @@ library(SnowballC)
 library(stringr)
 library(plyr)
 
+# Secret Keys Changed
 consumer_key <- "95zTIl1ucMJK3Otm0Az1zQAw3"
-consumer_secret <- "rQ2uHq5X8bj9c0dIvwbzmxUZnq9gMkoemx5m4bAn2How3vnJqM"
+consumer_secret <- "rQ6uHq5G8bj660dEvwbzmxUZnq9gMkoemx5m4bAn2How3vnJqM"
 access_token <- "791290675-ARVTUes6X89Qr5DLQ8tEJGvElfhjZHXXCOaBh2wm"
-access_secret <- "TkFl5fy7wWBBB0Gk1Ge9n2LJdnKjmA18au4kV8I83U573"
+access_secret <- "TkFl5fy7wWBBB0Gk1Fe9n2LJdnKjhA18ca4kM8I83U573"
 
 setup_twitter_oauth(consumer_key,consumer_secret,access_token,access_secret)
 
@@ -36,6 +37,7 @@ cleanTweets <- function(tweets)
   return(tweets)
   }
 
+<<<<<<< HEAD
 
 # corpus = Corpus(VectorSource(df$text))
 # corpus <- tm_map(corpus, removeURL)
@@ -124,3 +126,6 @@ sentimentalanalysis<-function(entity,nooftweets){
 df <- TweetDF('@realDonaldTrump','200')
 df <- subset(df,!is.na(df$text))
 snt <- sentimentalanalysis(df,nrow(df))
+=======
+# WIP
+>>>>>>> origin/master
