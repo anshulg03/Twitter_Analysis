@@ -1,0 +1,10 @@
+name: twitter_sentiment
+title: Twitter_Sentiment
+account: anshulg03
+server: shinyapps.io
+appId: 161554
+bundleId: 735757
+url: https://anshulg03.shinyapps.io/twitter_sentiment/
+when: 1488820984.08679
+asMultiple: FALSE
+asStatic: FALSE

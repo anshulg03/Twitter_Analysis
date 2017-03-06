@@ -1,0 +1,11 @@
+name: Twitter_Analysis
+title: Twitter_Analysis
+account: anshulg03
+server: shinyapps.io
+appId: 161550
+bundleId: 735715
+url: https://anshulg03.shinyapps.io/Twitter_Analysis/
+when: 1488819798.93322
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: Twiiter Project.R
