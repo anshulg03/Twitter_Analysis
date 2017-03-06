@@ -11,7 +11,7 @@ shinyUI(fluidPage(
     dashboardSidebar(
       textInput("entity1", "Handle: ",""),
       sliderInput("maxTweets","Number of recent tweets to use for analysis:",min=300,max=2500,value=600,step=100),
-      actionButton(inputId='go',icon =icon("twitter"), label="Hit it!", align = "center"),
+      actionButton(inputId='go',icon =icon("twitter"), label="Hit it!"),
       hr(),
       sidebarMenu(
         # menuItem("Sentiment Analysis", tabName = "dashboard", icon = icon("signal")),

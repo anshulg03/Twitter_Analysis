@@ -29,33 +29,6 @@ Commonwords <- function(){
 
 shinyServer(function(input, output, session) {
    
-  observeEvent(input$go,{
-    withProgress(message = 'Creating plot', style = 'notification', value = 0.1, {
-      Sys.sleep(0.25)
-      
-      # Create 0-row data frame which will be used to store data
-      dat <- data.frame(x = numeric(0), y = numeric(0))
-      
-      # withProgress calls can be nested, in which case the nested text appears
-      # below, and a second bar is shown.
-      withProgress(message = 'Generating data', detail = "part 0", value = 0, {
-        for (i in 1:100) {
-          # Each time through the loop, add another row of data. This a stand-in
-          # for a long-running computation.
-          dat <- rbind(dat, data.frame(x = rnorm(1), y = rnorm(1)))
-          
-          # Increment the progress bar, and update the detail text.
-          incProgress(0.1, detail = paste(i, " %"))
-          
-          # Pause for 0.1 seconds to simulate a long computation.
-          Sys.sleep(0.05)
-        }
-      })
-    })
-  })
-  
-  
-  
   TweetDF <- function(searchItem, MaxTerms)
   {
     SampleTweets <- searchTwitter(searchItem, lang="en", n=MaxTerms, resultType="recent")
@@ -66,8 +39,7 @@ shinyServer(function(input, output, session) {
     return(df)
   }
   
-  
-  cleanTweets <- function(tweets)
+   cleanTweets <- function(tweets)
   {
     tweets <- gsub("http[[:alnum:]]*", "", tweets)
     tweets <- gsub("[[:punct:]]", "", tweets)
@@ -163,7 +135,13 @@ shinyServer(function(input, output, session) {
   })
 
   click <- eventReactive(input$go,{
-        wordcloudentity(entityone()$text)
+       
+    withProgress(message = 'Generating data', detail = "part 0", value = 0, {
+        incProgress(0.5, detail = paste(50, " %"))
+      wordcloudentity(entityone()$text)
+
+    })
+    
   })
   
 
