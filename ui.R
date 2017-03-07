@@ -23,21 +23,14 @@ shinyUI(fluidPage(
     # Show a plot of the generated distribution
     dashboardBody(
       tabItems(
-        # First tab content
-        # tabItem(tabName = "dashboard",
-        #         HTML("<div style='color:#fff; font-size: 25px;text-align: center; background-color:#1E282C; box-shadow: 0 12px 6px -6px #777;border-radius: 10px;padding: 9px 15px ; margin-bottom:8px;' >No of tweets By Hour </div>"),
-        #         plotOutput("plot2"),
-        #         HTML("<div style='color:#fff; font-size: 25px;text-align: center; background-color:#1E282C; box-shadow: 0 12px 6px -6px #777;border-radius: 10px;padding: 9px 15px ; margin-bottom:8px;' >Score By Hour </div>"),
-        #         plotOutput("plot1")
-        # ),
-        
-        # Second tab content
+
         tabItem(tabName = "wordcloud",
                 HTML("<div style='color:#fff; font-size: 25px;text-align: center; background-color:#1E282C; box-shadow: 0 12px 6px -6px #777;border-radius: 10px;padding: 9px 15px ; margin-bottom:8px;' >WordCloud</div>"),
                 plotOutput("entity1wcplot")
         ),
         tabItem(tabName = "score",
                 HTML("<div style='color:#fff; font-size: 25px;text-align: center; background-color:#1E282C; box-shadow: 0 12px 6px -6px #777;border-radius: 10px;padding: 9px 15px ; margin-bottom:8px;' >Score</div>"),
+                HTML("<br>"),
                 plotlyOutput("plot3")
 
         )

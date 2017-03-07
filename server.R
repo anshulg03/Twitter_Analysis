@@ -58,7 +58,7 @@ shinyServer(function(input, output, session) {
     tdMatrix <- as.matrix(tweetTDM) # creating a data matrix
     sortedMatrix<-sort(rowSums(tdMatrix),decreasing=TRUE) # calculate row sum of each term and sort in descending order (high freq to low)
     cloudFrame<-data.frame(word=names(sortedMatrix),freq=sortedMatrix)#extracting names from named list in prev command and binding together into a dataframe with frequencies - called cloudFrame, names in separate columns
-    wcloudentity<-wordcloud(cloudFrame$word,cloudFrame$freq,max.words=100, colors=brewer.pal(8,"Dark2"),scale=c(8,1), random.order=F)
+    wcloudentity<-wordcloud(cloudFrame$word,cloudFrame$freq,min.freq = 5,max.words=100, colors=brewer.pal(8,"Dark2"),scale=c(8,1), random.color =F, random.order = F)
   }
   
   score.sentiment = function(sentences, pos.words, neg.words)
@@ -130,7 +130,7 @@ shinyServer(function(input, output, session) {
   output$entity1wcplot<-renderPlot({
     click()})
   
-  entityone<-reactive({
+  entityone<- eventReactive(input$go,{
     entityone<-TweetDF(input$entity1, input$maxTweets)
   })
 
@@ -147,6 +147,8 @@ shinyServer(function(input, output, session) {
 
     
     output$plot3<- renderPlotly({
+      withProgress(message = 'Analysing Tweets', detail = "part 0", value = 0, {
+        incProgress(0.5, detail = paste(50, " %"))
       
       a<-entity1score()
       lbl <- c('Positive','Negative','Neutral')
@@ -161,6 +163,7 @@ shinyServer(function(input, output, session) {
                yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
                 
       return(p)
+      })
       })
     
   })
