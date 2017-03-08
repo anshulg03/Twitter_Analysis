@@ -59,12 +59,17 @@ shinyUI(fluidPage(
       tabItem(
         tabName = "tweet",
         HTML(
-          "<div style='color:#fff; font-size: 25px;text-align: center; background-color:#1E282C; box-shadow: 0 12px 6px -6px #777;border-radius: 10px;padding: 9px 15px ; margin-bottom:8px;' >Tweets</div>"
+         "<div style='color:#fff; font-size: 25px;text-align: center; background-color:#1E282C; box-shadow: 0 12px 6px -6px #777;border-radius: 10px;padding: 9px 15px ; margin-bottom:8px;' >Tweets</div>"
         ),
         HTML("<br>"),
-        tableOutput("dframe")
+        #tabledata("dframe"),
+        tabsetPanel(type = "tabs", 
+                    tabPanel("Positive", tableOutput("pos")), 
+                    tabPanel("Neutral", tableOutput("neu")), 
+                    tabPanel("Negative", tableOutput("neg"))
+        ))
       )
     ))
   )
-))
+)
 

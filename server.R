@@ -7,7 +7,7 @@ library(tm)
 library(SnowballC)
 library(stringr)
 library(plyr)
-library(rsconnect)
+library(tidyverse)
 library(wordcloud)
 library(plotly)
 
@@ -41,9 +41,7 @@ shinyServer(function(input, output, session) {
                      strip_manual = TRUE,
                      strip_mt = TRUE)
     df <- twListToDF(tweets)
-    df$text <-
-      sapply(df$text, function(row)
-        iconv(row, "latin1", "ASCII", sub = ""))
+    df$text <- sapply(df$text, function(row) iconv(row, "latin1", "ASCII", sub = ""))
     wordcloudentity(df$text)
     return(df)
   }
@@ -55,7 +53,8 @@ shinyServer(function(input, output, session) {
     tweets <- gsub("[[:punct:]]", "", tweets)
     tweets <- gsub("[[:digit:]]", "", tweets)
     tweets <- str_replace_all(tweets, "#", "")
-    tweets <- str_replace_all(tweets, "@", "")
+    tweets <- str_replace_all(tweets,"@[a-z,A-Z]*","")
+    
     return(tweets)
   }
   
@@ -65,7 +64,7 @@ shinyServer(function(input, output, session) {
     tweetTDM <- TermDocumentMatrix(tweetCorpus,
                               control = list(
                                               removePunctuation = TRUE,
-                                              stopwords = Commonwords(),
+                                              stopwords = CommonWords(),
                                               removeNumbers = TRUE,
                                               tolower = TRUE
                                               )
@@ -205,8 +204,19 @@ shinyServer(function(input, output, session) {
                  })
   })
   
-  output$dframe <- renderTable(
-    cleanTweets(entityone()$text)
-  )
+  output$pos <- renderTable({
+    a <- entity1score()
+    dplyr::filter(a, score > 0) %>% dplyr::select(Tweet = text)
+  })
+  
+  output$neu <- renderTable({
+    a <- entity1score()
+    dplyr::filter(a, score == 0) %>% dplyr::select(Tweet = text)
+  })
+  
+  output$neg <- renderTable({
+    a <- entity1score()
+    dplyr::filter(a, score < 0) %>% dplyr::select(Tweet = text)
+  })
   
 })
