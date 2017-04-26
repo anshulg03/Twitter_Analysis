@@ -12,11 +12,11 @@ library(wordcloud)
 library(plotly)
 
 # Secret Keys Changed
-consumer_key <- "95zTIl1ucMJK3Otm0Az1zQAw3"
+consumer_key <- "95zTIl1ucMJK3Om0Az1zQAw3"
 consumer_secret <-
-  "rQ2uHq5X8bj9c0dIvwbzmxUZnq9gMkoemx5m4bAn2How3vnJqM"
-access_token <- "791290675-ARVTUes6X89Qr5DLQ8tEJGvElfhjZHXXCOaBh2wm"
-access_secret <- "TkFl5fy7wWBBB0Gk1Ge9n2LJdnKjmA18au4kV8I83U573"
+  "rQ2uHq5X8bj9c0dIvwbzmxnq9Mkoemx5m4bAn2How3vnJqM"
+access_token <- "791290675-ARVTUes6X895DLQ8tEJGvElfhjZHXCOaBh2wm"
+access_secret <- "TkFl5fy7wWBBB0GkGe9n2LJdnKjmA18au4kV8I83U573"
 
 setup_twitter_oauth(consumer_key, consumer_secret, access_token, access_secret)
 
@@ -70,8 +70,8 @@ shinyServer(function(input, output, session) {
                                               )
       ) 
     tdMatrix <- as.matrix(tweetTDM) # creating a data matrix
-    sortedMatrix <-  sort(rowSums(tdMatrix), decreasing = TRUE) # calculate row sum of each term and sort in descending order (high freq to low)
-    cloudFrame <-   data.frame(word = names(sortedMatrix), freq = sortedMatrix)#extracting names from named list in prev command and binding together into a dataframe with frequencies - called cloudFrame, names in separate columns
+    sortedMatrix <-  sort(rowSums(tdMatrix), decreasing = TRUE) 
+    cloudFrame <-   data.frame(word = names(sortedMatrix), freq = sortedMatrix)
     wcloudentity <- wordcloud(
                               cloudFrame$word,
                               cloudFrame$freq,
@@ -84,53 +84,53 @@ shinyServer(function(input, output, session) {
                               )
   }
   
-  score.sentiment = function(sentences, pos.words, neg.words)
+  score.sentiment <- function(sentences, pos.words, neg.words)
   {
-    scores = laply(sentences, function(sentence, pos.words, neg.words) {
+    scores <- laply(sentences, function(sentence, pos.words, neg.words) {
       # clean up sentences with R's regex-driven global substitute, gsub():
-      sentence = cleanTweets(sentence)
+      sentence <- cleanTweets(sentence)
       
-      sentence = tolower(sentence)
+      sentence <- tolower(sentence)
       # split into words. str_split is in the stringr package
-      word.list = str_split(sentence, '\\s+')
+      word.list <- str_split(sentence, '\\s+')
       
-      words = unlist(word.list)
+      words <- unlist(word.list)
       
       # compare our words to the dictionaries
-      pos.matches = match(words, pos.words)
-      neg.matches = match(words, neg.words)
+      pos.matches <- match(words, pos.words)
+      neg.matches <- match(words, neg.words)
       
       # match() returns the position of the matched term or NA
-      pos.matches = !is.na(pos.matches)
-      neg.matches = !is.na(neg.matches)
+      pos.matches <- !is.na(pos.matches)
+      neg.matches <- !is.na(neg.matches)
       
-      score = sum(pos.matches) - sum(neg.matches)
+      score <- sum(pos.matches) - sum(neg.matches)
       
       return(score)
     }, pos.words, neg.words)
-    scores.df = data.frame(score = scores,
+    scores.df <- data.frame(score = scores,
                            text = sentences,
                            size = seq(length(scores)))
     return(scores.df)
   }
   
   sentimentalanalysis <- function(entity, nooftweets) {
-    positivewords = readLines("positive-words.txt")
-    negativewords = readLines("negative-words.txt")
-    entityscore = score.sentiment(cleanTweets(entity$text), positivewords, negativewords)
-    entityscore$posi = sum(laply(entityscore$score, function(score) {
+    positivewords <- readLines("positive-words.txt")
+    negativewords <- readLines("negative-words.txt")
+    entityscore <- score.sentiment(cleanTweets(entity$text), positivewords, negativewords)
+    entityscore$posi <- sum(laply(entityscore$score, function(score) {
       if (score > 0) {
         return(1)
       }
       return(0)
     }))
-    entityscore$negi = sum(laply(entityscore$score, function(score) {
+    entityscore$negi <- sum(laply(entityscore$score, function(score) {
       if (score < 0) {
         return(1)
       }
       return(0)
     }))
-    entityscore$neu = nooftweets - (entityscore$posi + entityscore$negi)
+    entityscore$neu <- nooftweets - (entityscore$posi + entityscore$negi)
     
     entityscore
   }
